@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>U.S. Presidential Elections (2000-2020)</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/css/main.css">
+    <script>
+      var locationPath = location.pathname.replace(/\/[^\/]+$/, "");
+      window.dojoConfig = {
+        packages: [
+          {
+            name: "app",
+            location: locationPath + "/app"
+          }
+        ]
+      };
+    </script>
+    <script src="https://js.arcgis.com/4.18/"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CG3YaU-o.css">
+  </head>
+  <body>
+    <div id="infoDiv" class="esri-widget">
+      <div id="title" >Electoral swing</div>
+      <div id="subtitle">U.S. presidential elections 2004-2020</div>
+      <div id="current-year"></div>
+      <div id="results" class="esri-widget">
+        <div id="dem-results">
+          <div id="dem-candidate"></div>
+          <div id="dem-votes"></div>
+        </div>
+        <div id="rep-results">
+          <div id="rep-candidate"></div>
+          <div id="rep-votes"></div>
+        </div>
+      </div>
+      <div id="slider"></div>
+    </div>
+    <div id="viewDiv"></div>
+    <div id="change-legend" class="esri-widget legend-containers">
+      <div class="heading">
+        Change in U.S. presidential voting behavior from <br><span id="start-year-change">2016</span>-<span id="end-year-change">2020</span>
+      </div>
+      <div class="subheading">
+        Votes gained or lost
+      </div>
+      <div class="img-container">
+        <img class="parties" src="/assets/party-colors-DjGct37d.png">
+      </div>
+      <div class="donut-container">
+        <table class="esri-widget">
+          <tr><td><img class="legend-icons" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABKCAYAAAARzrI2AAAAAXNSR0IArs4c6QAAAHhlWElmTU0AKgAAAAgABAEaAAUAAAABAAAAPgEbAAUAAAABAAAARgEoAAMAAAABAAIAAIdpAAQAAAABAAAATgAAAAAAAACQAAAAAQAAAJAAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAEygAwAEAAAAAQAAAEoAAAAAS3SK4QAAAAlwSFlzAAAWJQAAFiUBSVIk8AAABmpJREFUeAHtnGtoHFUUx7PZJGZxN5KahlCliq9oCiFQPxWzSVNExCdIrFDEVEvApbFEbB7mZV4mWVdCjeZDqBgRQc0noSJYbPMo+MWCXxpbtTYEDSGmhmZXEpIm6/9MZqY7s3dmZ2cn2e7OHVjuvec+z49zzzz23uvISNLV1NT0QE5Ozn50/wh+xQ6H42GEu8LhsAdxD0IXwhWEQYRB5P2L+O8Ir+D329ra2sX+/v4/Ed/Ry7FTvTU2Nt4FQC9A+Sr8DqLfvRb0PQuI5/E7B4DfDgwM3LCgTd0mthVYbW1tdmFh4dNOp/NVKPUcQN2hO5rEMldR/czGxsYXCwsL34+MjKwn1hy79rYAq6+vd7nd7jcyMzNPolsrLIk9em3p7Obm5gehUOjTwcHBFe1i8edYCowsqqio6C1YUgOGUhj/cCyvsQDL9s/Pz39klcVZBqy1tbUKFvUxYD1mudoJNghov8Lijvf09JxLsKmMhIHV1dXl5efnDwPUkUQHs931Ae7LpaUl39DQ0LLZvhIC1tLS8jgc+leA9aDZAex0PUC7ihvDK729vT+b6dtpphLVaW9vfxOwxgBrt9k2klEP490F11FTUVFxfWJiIm5opoB1dHT0ouN+KGyqfjJAqfp0YvzPVFZW5gBaXH4trilZXV3tLCkpOY3Oa1QDSOXk6PT09LGxsbENI0pkGSkklnGkISxSrQZ6Ufg6fmGK6F2GpxR8VgBm7NNrLIXzyuDT3JieP8TSwRCwtra2t+Eo34vVWCrnwxgOeL3e4OTk5E96esT0YXh0eCIrK+s8Goln+ur1eTvn3cR1EI8cF7QGqQusubl5N74w/ILKe7QaSEP5HL58lPX19f3D0i2TJZRk2dnZnyFuJ1ik+h5RbwmDItQEBif/Ej2rKErbJEF6k/4sdZnAGhoaPCh8ilXBRrJTPp/PrdaXCSw3N7cFlO9RF7ZTmvQvKChoVesc5fTh6O+Go59BwSi66so2SIdwA7gfN4Drkq5RFgaHV89hSXgy3CIPWaCwMPJdLpfrL+TmySV4ZHllZeVev99P/1xlKCwMvutlyDgspZHkiVwEqQIYJK8py/KUSEDmIk9J8Y/VP3B3kGUc1xYBfKUNw/k/RH8cyxYG5/Yih8U2EeJCf0JTrgwMsip2cS4VCRyiUACGT7X0JcIrZvCATcBLnARg5eXl+2Fh9DrELw0CxIc4SVNyn0Y5LlYS2CcAA71HlXKeYhEgTpKFcWAsQtGyLWAgd190HpeoCRAnycL465CaDjudJwDDgyy/Q7IBKaTESXL6HJgCDTuBKbkFjJ3NpSwC0pQUvvWwCnDZLQKYkkFpSnJgt7hoxjAlt4ChhOkVeZqtp2fGsmBh0G0mPfWzXKsZyYfR7gp+xSAAH3ZFAnY5RlmeDQIAdlmakpc4EUMELgnApqamLtIt01AVmxYiPsRJADY+Pn4THCZtysKo2pPESZqSVOlHozVtWk7gIwOj7XMwu7BNYeiqTVyIDxWSgYmbNTWXKuq2mP6ZF6TNrDIwUefP0193UxrKXBTAVldXv0Fz/DVJyXRZ5CJIFcBohQqm65CyvL1TxENauUMkFMBIsL6+PoggRHF+ZYREHjKKKGC02g5UP5FL2DhCHCJXHxKKKGAkXFxc7EHhvylu14v0Jw5q/ZnAhoeHaUqeUBe2WfqEyEGhtu5aMKxVP4OvjLZbqw/r+q6rq+tZBSkxwbQwqSAc3lHE56S0TcI5UW+murrAaL8NNisdRk16ObfDRZuzDpPeWsrG3P6HTxqz2Bb3H6bmU1qNpIscRzWcxFENX+vpExMYVaY9hNiASYcIHdBrLJXz4Lc+7O7u7oylgyFg1Ah2q57FCjxatFIWq9EUzB+Fkz9uZNy6PkzVQJg2k0M2qpKnelLYJA8lDH3a0n2s0CJBxzAg712t/BSSv9/Z2dkSz3gNT8nIRumsB/i0Bfi0JyE31UZke0mIr9FZPJiG/nj7NmVhUif8KBmJhMEQjxxzpaWlo9iLsxfWVmqwWtKK4U5IhxU9HwgErpkdREIWFtkpXqMOIT0EcGl9HJZl/gd+7VpxcfEITqa7AWj06HFnJNAkxenAtQ4cuHYUJ9VdtWIMlllY5GDoSD+Px3MM4N6BPClH+gFUIBgMnr6tj/SLhEbxyEMjkaS3/1ySb9OVuodGsoDwY0lZVOKQperBt/8D5a1KaHlb5N8AAAAASUVORK5CYII="></td><td>Increase in votes</td></tr>
+          <tr><td><img class="legend-icons" src="data:image/png;base64,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"></td><td>Decrease in votes</td></tr>
+        </table>
+      </div>
+      <div class="description">
+        <!-- Symbol size represents the number of votes as a percentage of the total votes cast in the state. -->
+        This example from Utah County, Utah shows a significant decrease in <span style="font-weight: 500; color:rgba(220, 75, 0, 1)">Republican</span> votes and a significant
+        increase in <span style="font-weight: 500; color:rgba(181, 166, 0, 1)">third party</span> votes.
+      </div>
+      <div class="img-container">
+        <img class="example" src="/assets/example-change-Di7tQvxr.png">
+      </div>
+      <div id="change-legend-container"></div>
+    </div>
+
+    <div id="total-legend" class="esri-widget legend-containers">
+      <div class="heading">
+        <span id="end-year-total">2020</span> U.S. presidential votes per party
+      </div>
+      <div class="subheading">
+        Results by county/state
+      </div>
+      <div class="img-container">
+        <img class="parties" src="/assets/party-colors-DjGct37d.png">
+      </div>
+      <div class="description">
+        As you zoom in, the total votes will be displayed next to the symbol.
+      </div>
+      <div class="img-container">
+        <img class="example" src="/assets/example-total-bG7aXKX8.png">
+      </div>
+      <div id="total-legend-container"></div>
+    </div>
+
+    <div class="esri-component esri-home esri-widget--button esri-widget esri-icon-layer-list" id="info-toggle"></div>
+    <script>require(["app/main"]);</script>
+  </body>
+</html>
