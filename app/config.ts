@@ -3,10 +3,10 @@ import Slider = require("esri/widgets/Slider");
 
 // function to retrieve query parameters (in this case only id)
 export interface UrlParams {
-  year?: 2004 | 2008 | 2012 | 2016 | 2020 | number,
+  year?: 2004 | 2008 | 2012 | 2016 | 2020 | 2024 | number,
 }
 
-const validYears = [ 2000, 2004, 2008, 2012, 2016, 2020 ];
+const validYears = [ 2000, 2004, 2008, 2012, 2016, 2020, 2024 ];
 
 function getUrlParams() {
   const queryParams = document.location.search.substr(1);
@@ -30,16 +30,16 @@ let year = getUrlParams();
 export const yearSlider = new Slider({
   container: document.getElementById("slider"),
   min: 2004,
-  max: 2020,
+  max: 2024,
   visibleElements: {
     labels: false
   },
   labelInputsEnabled: false,
   rangeLabelInputsEnabled: false,
-  steps: 4,
+  steps: 5,
   tickConfigs: [{
     mode: "position",
-    values: [ 2004, 2008, 2012, 2016, 2020 ],
+    values: [ 2004, 2008, 2012, 2016, 2020, 2024 ],
     labelsVisible: true,
     tickCreatedFunction: (value, tickElement, labelElement) => {
       const setValue = () => {
@@ -51,18 +51,16 @@ export const yearSlider = new Slider({
       labelElement.style.cursor = "pointer";
     }
   }]
-
-
 });
 
 if(!year){
-  year = 2020;
+  year = 2024;
   setUrlParams(year);
   yearSlider.values = [ year ];
 } else {
   if ( year && validYears.indexOf(year) === -1 ){
-    alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 20012, 2016)")
-    year = 2020;
+    alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 2012, 2016, 2020, 2024)")
+    year = 2024;
     setUrlParams(year);
   }
   yearSlider.values = [ year ];
@@ -74,7 +72,7 @@ export const countiesLayerPortalItem = "fe9e032e4a854c74890750214a3edd8b";
 
 export const maxScale = 4622324/16;
 export const referenceScale = 2311162;
-export const scaleThreshold = 9244600;  // 9244649;
+export const scaleThreshold = 9244600;
 export const stateReferenceScale = 18489200;
 
 export let selectedYear = year;
@@ -168,6 +166,20 @@ export const results = {
       candidate: "Other",
       electoralVotes: 0
     }
+  },
+  2024: {
+    republican: {
+      candidate: "Trump",
+      electoralVotes: 236  // Update with final count
+    },
+    democrat: {
+      candidate: "Biden",
+      electoralVotes: 302  // Update with final count
+    },
+    other: {
+      candidate: "Other",
+      electoralVotes: 0
+    }
   }
 }
 
@@ -179,11 +191,11 @@ export let fieldInfos = {
   democrat: {
     county: {
       previous: {
-        name: `dem_${years.previous}`,
+        name: "votes_dem",
         label: `${years.previous} Democrat votes`
       },
       next: {
-        name: `dem_${years.next}`,
+        name: "votes_dem",
         label: `${years.next} Democrat votes`
       },
     },
@@ -201,11 +213,11 @@ export let fieldInfos = {
   republican: {
     county: {
       previous: {
-        name: `rep_${years.previous}`,
+        name: "votes_gop",
         label: `${years.previous} Republican votes`
       },
       next: {
-        name: `rep_${years.next}`,
+        name: "votes_gop",
         label: `${years.next} Republican votes`
       }
     },
@@ -223,11 +235,11 @@ export let fieldInfos = {
   other: {
     county: {
       previous: {
-        name: `oth_${years.previous}`,
+        name: "votes_other",
         label: `${years.previous} Other votes`
       },
       next: {
-        name: `oth_${years.next}`,
+        name: "votes_other",
         label: `${years.next} Other votes`
       }
     },
@@ -319,11 +331,11 @@ export function setSelectedYear(year: UrlParams["year"]) {
     democrat: {
       county: {
         previous: {
-          name: `dem_${years.previous}`,
+          name: "votes_dem",
           label: `${years.previous} Democrat votes`
         },
         next: {
-          name: `dem_${years.next}`,
+          name: "votes_dem",
           label: `${years.next} Democrat votes`
         },
       },
@@ -341,11 +353,11 @@ export function setSelectedYear(year: UrlParams["year"]) {
     republican: {
       county: {
         previous: {
-          name: `rep_${years.previous}`,
+          name: "votes_gop",
           label: `${years.previous} Republican votes`
         },
         next: {
-          name: `rep_${years.next}`,
+          name: "votes_gop",
           label: `${years.next} Republican votes`
         }
       },
@@ -363,11 +375,11 @@ export function setSelectedYear(year: UrlParams["year"]) {
     other: {
       county: {
         previous: {
-          name: `oth_${years.previous}`,
+          name: "votes_other",
           label: `${years.previous} Other votes`
         },
         next: {
-          name: `oth_${years.next}`,
+          name: "votes_other",
           label: `${years.next} Other votes`
         }
       },
