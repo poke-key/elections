@@ -11,19 +11,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ekenes/election-2016.git"
+    "url": "git+https://github.com/poke-key/elections.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ekenes/election-2016/issues"
+    "url": "https://github.com/poke-key/elections/issues"
   },
   "homepage": "https://poke-key.github.io/elections",
-  "dependencies": {},
+  "dependencies": {
+    "@arcgis/core": "^4.28.10"
+  },
   "devDependencies": {
-    "@types/arcgis-js-api": "http://jscore.esri.com/javascript/latest/api-reference/typings/arcgis-js-api-4.17.tgz",
-    "typescript": "^4.x.x",
-    "vite": "^4.x.x"
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10"
   }
 }
