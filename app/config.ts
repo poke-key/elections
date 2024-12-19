@@ -1,7 +1,6 @@
 import { Color } from "@arcgis/core/Color";
 import { Slider } from "@arcgis/core/widgets/Slider";
 
-// Rest of your config.ts file remains the same
 export interface UrlParams {
   year?: 2004 | 2008 | 2012 | 2016 | 2020 | 2024 | number,
 }
@@ -20,7 +19,6 @@ function getUrlParams() {
   return result.year;
 }
 
-// function to set an id as a url param
 export function setUrlParams(year: UrlParams["year"]) {
   window.history.pushState("", "", `${window.location.pathname}?year=${year}`);
 }
@@ -170,23 +168,23 @@ export const results = {
   2024: {
     republican: {
       candidate: "Trump",
-      electoralVotes: 236  // Update with final count
+      electoralVotes: 312
     },
     democrat: {
-      candidate: "Biden",
-      electoralVotes: 302  // Update with final count
+      candidate: "Harris",
+      electoralVotes: 226
     },
     other: {
       candidate: "Other",
       electoralVotes: 0
     }
   }
-}
+};
 
 export let fieldInfos = {
   title: {
-    state: `{state}`,
-    county: `{county} County, {state}`
+    state: `{state_name}`,
+    county: `{county_name} County, {state_name}`
   },
   democrat: {
     county: {
@@ -197,15 +195,15 @@ export let fieldInfos = {
       next: {
         name: "votes_dem",
         label: `${years.next} Democrat votes`
-      },
+      }
     },
     state: {
       previous: {
-        name: `SUM_dem_${years.previous}`,
+        name: "votes_dem",
         label: `${years.previous} Democrat votes`
       },
       next: {
-        name: `SUM_dem_${years.next}`,
+        name: "votes_dem",
         label: `${years.next} Democrat votes`
       }
     }
@@ -223,11 +221,11 @@ export let fieldInfos = {
     },
     state: {
       previous: {
-        name: `SUM_rep_${years.previous}`,
+        name: "votes_gop",
         label: `${years.previous} Republican votes`
       },
       next: {
-        name: `SUM_rep_${years.next}`,
+        name: "votes_gop",
         label: `${years.next} Republican votes`
       }
     }
@@ -235,34 +233,34 @@ export let fieldInfos = {
   other: {
     county: {
       previous: {
-        name: "votes_other",
+        name: "other_votes",
         label: `${years.previous} Other votes`
       },
       next: {
-        name: "votes_other",
+        name: "other_votes",
         label: `${years.next} Other votes`
       }
     },
     state: {
       previous: {
-        name: `SUM_oth_${years.previous}`,
+        name: "other_votes",
         label: `${years.previous} Other votes`
       },
       next: {
-        name: `SUM_oth_${years.next}`,
+        name: "other_votes",
         label: `${years.next} Other votes`
       }
     }
   },
   normalizationFields: {
     county: {
-      previous: `TOTAL_STATE_VOTES_${years.previous}`,
-      next: `TOTAL_STATE_VOTES_${years.next}`
+      previous: "total_votes",
+      next: "total_votes"
     },
     state: {
-      electoralVotes: `ev_${years.next}`,
-      previous: ``,
-      next: ``
+      electoralVotes: "electoral_votes",
+      previous: "",
+      next: ""
     }
   }
 };
@@ -325,8 +323,8 @@ export function setSelectedYear(year: UrlParams["year"]) {
 
   fieldInfos = {
     title: {
-      state: `{state}`,
-      county: `{county} County, {state}`
+      state: `{state_name}`,
+      county: `{county_name} County, {state_name}`
     },
     democrat: {
       county: {
@@ -337,15 +335,15 @@ export function setSelectedYear(year: UrlParams["year"]) {
         next: {
           name: "votes_dem",
           label: `${years.next} Democrat votes`
-        },
+        }
       },
       state: {
         previous: {
-          name: `SUM_dem_${years.previous}`,
+          name: "votes_dem",
           label: `${years.previous} Democrat votes`
         },
         next: {
-          name: `SUM_dem_${years.next}`,
+          name: "votes_dem",
           label: `${years.next} Democrat votes`
         }
       }
@@ -363,11 +361,11 @@ export function setSelectedYear(year: UrlParams["year"]) {
       },
       state: {
         previous: {
-          name: `SUM_rep_${years.previous}`,
+          name: "votes_gop",
           label: `${years.previous} Republican votes`
         },
         next: {
-          name: `SUM_rep_${years.next}`,
+          name: "votes_gop",
           label: `${years.next} Republican votes`
         }
       }
@@ -375,34 +373,34 @@ export function setSelectedYear(year: UrlParams["year"]) {
     other: {
       county: {
         previous: {
-          name: "votes_other",
+          name: "other_votes",
           label: `${years.previous} Other votes`
         },
         next: {
-          name: "votes_other",
+          name: "other_votes",
           label: `${years.next} Other votes`
         }
       },
       state: {
         previous: {
-          name: `SUM_oth_${years.previous}`,
+          name: "other_votes",
           label: `${years.previous} Other votes`
         },
         next: {
-          name: `SUM_oth_${years.next}`,
+          name: "other_votes",
           label: `${years.next} Other votes`
         }
       }
     },
     normalizationFields: {
       county: {
-        previous: `TOTAL_STATE_VOTES_${years.previous}`,
-        next: `TOTAL_STATE_VOTES_${years.next}`
+        previous: "total_votes",
+        next: "total_votes"
       },
       state: {
-        electoralVotes: `ev_${years.next}`,
-        previous: ``,
-        next: ``
+        electoralVotes: "electoral_votes",
+        previous: "",
+        next: ""
       }
     }
   };
