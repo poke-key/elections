@@ -1,9 +1,9 @@
-import EsriMap = require("esri/Map");
-import MapView = require("esri/views/MapView");
-import FeatureLayer = require("esri/layers/FeatureLayer");
-import Swipe = require("esri/widgets/Swipe");
-import Legend = require("esri/widgets/Legend");
-import Expand = require("esri/widgets/Expand");
+import Map from "@arcgis/core/Map";
+import MapView from "@arcgis/core/views/MapView";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import Swipe from "@arcgis/core/widgets/Swipe";
+import Legend from "@arcgis/core/widgets/Legend";
+import Expand from "@arcgis/core/widgets/Expand";
 
 import { referenceScale, maxScale, scaleThreshold, basemapPortalItem, statesLayerPortalItem, countiesLayerPortalItem, years, setSelectedYear, setUrlParams, yearSlider, UrlParams, results, selectedYear } from "./config";
 import { statePopupTemplate, countyPopupTemplate } from "./popupUtils";

@@ -1,7 +1,7 @@
-import Color = require("esri/Color");
-import Slider = require("esri/widgets/Slider");
+import { Color } from "@arcgis/core/Color";
+import { Slider } from "@arcgis/core/widgets/Slider";
 
-// function to retrieve query parameters (in this case only id)
+// Rest of your config.ts file remains the same
 export interface UrlParams {
   year?: 2004 | 2008 | 2012 | 2016 | 2020 | 2024 | number,
 }
