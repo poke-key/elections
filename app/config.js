@@ -4,7 +4,7 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
     exports.countySizeStops = exports.stateChangeSizeStops = exports.stateResultsSizeStops = exports.oColorCIM = exports.dColorCIM = exports.rColorCIM = exports.haloSize = exports.haloColor = exports.oColor = exports.dColor = exports.rColor = exports.fieldInfos = exports.results = exports.years = exports.selectedYear = exports.stateReferenceScale = exports.scaleThreshold = exports.referenceScale = exports.maxScale = exports.countiesLayerPortalItem = exports.statesLayerPortalItem = exports.basemapPortalItem = exports.yearSlider = void 0;
     exports.setUrlParams = setUrlParams;
     exports.setSelectedYear = setSelectedYear;
-    var validYears = [2000, 2004, 2008, 2012, 2016, 2020];
+    var validYears = [2000, 2004, 2008, 2012, 2016, 2020, 2024];
     function getUrlParams() {
         var queryParams = document.location.search.substr(1);
         var result = {};
@@ -14,7 +14,6 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
         });
         return result.year;
     }
-    // function to set an id as a url param
     function setUrlParams(year) {
         window.history.pushState("", "", "".concat(window.location.pathname, "?year=").concat(year));
     }
@@ -22,7 +21,7 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
     exports.yearSlider = new Slider({
         container: document.getElementById("slider"),
         min: 2004,
-        max: 2020,
+        max: 2024,
         visibleElements: {
             labels: false
         },
@@ -31,7 +30,7 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
         steps: 4,
         tickConfigs: [{
                 mode: "position",
-                values: [2004, 2008, 2012, 2016, 2020],
+                values: [2004, 2008, 2012, 2016, 2020, 2024],
                 labelsVisible: true,
                 tickCreatedFunction: function (value, tickElement, labelElement) {
                     var setValue = function () {
@@ -45,14 +44,14 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
             }]
     });
     if (!year) {
-        year = 2020;
+        year = 2024;
         setUrlParams(year);
         exports.yearSlider.values = [year];
     }
     else {
         if (year && validYears.indexOf(year) === -1) {
-            alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 20012, 2016)");
-            year = 2020;
+            alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 2012, 2016, 2020, 2024)");
+            year = 2024;
             setUrlParams(year);
         }
         exports.yearSlider.values = [year];
@@ -62,7 +61,7 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
     exports.countiesLayerPortalItem = "fe9e032e4a854c74890750214a3edd8b";
     exports.maxScale = 4622324 / 16;
     exports.referenceScale = 2311162;
-    exports.scaleThreshold = 9244600; // 9244649;
+    exports.scaleThreshold = 9244600;
     exports.stateReferenceScale = 18489200;
     exports.selectedYear = year;
     exports.years = {
@@ -153,6 +152,20 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
                 candidate: "Other",
                 electoralVotes: 0
             }
+        },
+        2024: {
+            republican: {
+                candidate: "Trump",
+                electoralVotes: 0
+            },
+            democrat: {
+                candidate: "Biden",
+                electoralVotes: 0
+            },
+            other: {
+                candidate: "Other",
+                electoralVotes: 0
+            }
         }
     };
     exports.fieldInfos = {
@@ -238,7 +251,6 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
             }
         }
     };
-    // Renderer config
     exports.rColor = new Color("rgba(220, 75, 0, 1)");
     exports.dColor = new Color("rgba(60, 108, 204,1)");
     exports.oColor = new Color("rgba(181, 166, 0, 1)");
@@ -247,10 +259,6 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
     exports.rColorCIM = exports.rColor.toJSON();
     exports.dColorCIM = exports.dColor.toJSON();
     exports.oColorCIM = exports.oColor.toJSON();
-    //////////////
-    // size stops
-    //////////////
-    // state results layer
     exports.stateResultsSizeStops = [
         { value: 0, size: 8 },
         { value: 100000, size: 10 },
@@ -258,7 +266,6 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
         { value: 4000000, size: 20 },
         { value: 12000000, size: 50 }
     ];
-    // state change layer
     exports.stateChangeSizeStops = [
         { value: 0, size: 8 },
         { value: 10000, size: 8 },
@@ -266,8 +273,6 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
         { value: 500000, size: 20 },
         { value: 2000000, size: 50 }
     ];
-    // county layers
-    // size is votes as a % of total state votes
     exports.countySizeStops = [
         { value: 0, size: 6 },
         { value: 0.1, size: 12 },

@@ -1,12 +1,11 @@
 import Color = require("esri/Color");
 import Slider = require("esri/widgets/Slider");
 
-// function to retrieve query parameters (in this case only id)
 export interface UrlParams {
-  year?: 2004 | 2008 | 2012 | 2016 | 2020 | number,
+  year?: 2004 | 2008 | 2012 | 2016 | 2020 | 2024 | number,
 }
 
-const validYears = [ 2000, 2004, 2008, 2012, 2016, 2020 ];
+const validYears = [ 2000, 2004, 2008, 2012, 2016, 2020, 2024 ];
 
 function getUrlParams() {
   const queryParams = document.location.search.substr(1);
@@ -20,7 +19,6 @@ function getUrlParams() {
   return result.year;
 }
 
-// function to set an id as a url param
 export function setUrlParams(year: UrlParams["year"]) {
   window.history.pushState("", "", `${window.location.pathname}?year=${year}`);
 }
@@ -30,7 +28,7 @@ let year = getUrlParams();
 export const yearSlider = new Slider({
   container: document.getElementById("slider"),
   min: 2004,
-  max: 2020,
+  max: 2024,
   visibleElements: {
     labels: false
   },
@@ -39,7 +37,7 @@ export const yearSlider = new Slider({
   steps: 4,
   tickConfigs: [{
     mode: "position",
-    values: [ 2004, 2008, 2012, 2016, 2020 ],
+    values: [ 2004, 2008, 2012, 2016, 2020, 2024 ],
     labelsVisible: true,
     tickCreatedFunction: (value, tickElement, labelElement) => {
       const setValue = () => {
@@ -51,18 +49,16 @@ export const yearSlider = new Slider({
       labelElement.style.cursor = "pointer";
     }
   }]
-
-
 });
 
 if(!year){
-  year = 2020;
+  year = 2024;
   setUrlParams(year);
   yearSlider.values = [ year ];
 } else {
   if ( year && validYears.indexOf(year) === -1 ){
-    alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 20012, 2016)")
-    year = 2020;
+    alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 2012, 2016, 2020, 2024)")
+    year = 2024;
     setUrlParams(year);
   }
   yearSlider.values = [ year ];
@@ -74,7 +70,7 @@ export const countiesLayerPortalItem = "fe9e032e4a854c74890750214a3edd8b";
 
 export const maxScale = 4622324/16;
 export const referenceScale = 2311162;
-export const scaleThreshold = 9244600;  // 9244649;
+export const scaleThreshold = 9244600;
 export const stateReferenceScale = 18489200;
 
 export let selectedYear = year;
@@ -168,6 +164,20 @@ export const results = {
       candidate: "Other",
       electoralVotes: 0
     }
+  },
+  2024: {
+    republican: {
+      candidate: "Trump",
+      electoralVotes: 0
+    },
+    democrat: {
+      candidate: "Biden",
+      electoralVotes: 0
+    },
+    other: {
+      candidate: "Other",
+      electoralVotes: 0
+    }
   }
 }
 
@@ -255,8 +265,6 @@ export let fieldInfos = {
   }
 };
 
-// Renderer config
-
 export const rColor = new Color("rgba(220, 75, 0, 1)");
 export const dColor = new Color("rgba(60, 108, 204,1)");
 export const oColor = new Color("rgba(181, 166, 0, 1)");
@@ -267,12 +275,6 @@ export const rColorCIM = rColor.toJSON();
 export const dColorCIM = dColor.toJSON();
 export const oColorCIM = oColor.toJSON();
 
-//////////////
-// size stops
-//////////////
-
-// state results layer
-
 export const stateResultsSizeStops = [
   { value: 0, size: 8 },
   { value: 100000, size: 10 },
@@ -281,8 +283,6 @@ export const stateResultsSizeStops = [
   { value: 12000000, size: 50 }
 ];
 
-// state change layer
-
 export const stateChangeSizeStops = [
   { value: 0, size: 8 },
   { value: 10000, size: 8 },
@@ -290,10 +290,6 @@ export const stateChangeSizeStops = [
   { value: 500000, size: 20 },
   { value: 2000000, size: 50 }
 ];
-
-// county layers
-
-// size is votes as a % of total state votes
 
 export const countySizeStops = [
   { value: 0, size: 6 },
