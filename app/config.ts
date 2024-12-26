@@ -3,10 +3,10 @@ import Slider = require("esri/widgets/Slider");
 
 // function to retrieve query parameters (in this case only id)
 export interface UrlParams {
-  year?: 2004 | 2008 | 2012 | 2016 | 2020 | 2024 | number,
+  year?: 2004 | 2008 | 2012 | 2016 | 2020 | number,
 }
 
-const validYears = [2000, 2004, 2008, 2012, 2016, 2020, 2024]; // Added 2024
+const validYears = [ 2000, 2004, 2008, 2012, 2016, 2020 ];
 
 function getUrlParams() {
   const queryParams = document.location.search.substr(1);
@@ -30,16 +30,16 @@ let year = getUrlParams();
 export const yearSlider = new Slider({
   container: document.getElementById("slider"),
   min: 2004,
-  max: 2024, // Updated the max value to 2024
+  max: 2020,
   visibleElements: {
     labels: false
   },
   labelInputsEnabled: false,
   rangeLabelInputsEnabled: false,
-  steps: 5, // Increased steps to 5
+  steps: 4,
   tickConfigs: [{
     mode: "position",
-    values: [ 2004, 2008, 2012, 2016, 2020, 2024 ], // Included 2024
+    values: [ 2004, 2008, 2012, 2016, 2020 ],
     labelsVisible: true,
     tickCreatedFunction: (value, tickElement, labelElement) => {
       const setValue = () => {
@@ -51,6 +51,8 @@ export const yearSlider = new Slider({
       labelElement.style.cursor = "pointer";
     }
   }]
+
+
 });
 
 if(!year){
@@ -59,7 +61,7 @@ if(!year){
   yearSlider.values = [ year ];
 } else {
   if ( year && validYears.indexOf(year) === -1 ){
-    alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 2012, 2016, 2020, 2024)")
+    alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 20012, 2016)")
     year = 2020;
     setUrlParams(year);
   }
@@ -165,20 +167,6 @@ export const results = {
     other: {
       candidate: "Other",
       electoralVotes: 0
-    }
-  },
-  2024: { // Added 2024 results
-    republican: {
-      candidate: "Trump",
-      electoralVotes: 312  // Adjust as per actual data
-    },
-    democrat: {
-      candidate: "Harris",
-      electoralVotes: 226  // Adjust as per actual data
-    },
-    other: {
-      candidate: "Other",
-      electoralVotes: 0  // Adjust as per actual data
     }
   }
 }
