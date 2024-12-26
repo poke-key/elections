@@ -3,10 +3,10 @@ import Slider = require("esri/widgets/Slider");
 
 // function to retrieve query parameters (in this case only id)
 export interface UrlParams {
-  year?: 2004 | 2008 | 2012 | 2016 | 2020 | 2024 | number,
+  year?: 2004 | 2008 | 2012 | 2016 | 2020 | number,
 }
 
-const validYears = [ 2000, 2004, 2008, 2012, 2016, 2020, 2024 ];
+const validYears = [ 2000, 2004, 2008, 2012, 2016, 2020 ];
 
 function getUrlParams() {
   const queryParams = document.location.search.substr(1);
@@ -30,16 +30,16 @@ let year = getUrlParams();
 export const yearSlider = new Slider({
   container: document.getElementById("slider"),
   min: 2004,
-  max: 2024,
+  max: 2020,
   visibleElements: {
     labels: false
   },
   labelInputsEnabled: false,
   rangeLabelInputsEnabled: false,
-  steps: 5,
+  steps: 4,
   tickConfigs: [{
     mode: "position",
-    values: [ 2004, 2008, 2012, 2016, 2020, 2024 ],
+    values: [ 2004, 2008, 2012, 2016, 2020 ],
     labelsVisible: true,
     tickCreatedFunction: (value, tickElement, labelElement) => {
       const setValue = () => {
@@ -51,16 +51,18 @@ export const yearSlider = new Slider({
       labelElement.style.cursor = "pointer";
     }
   }]
+
+
 });
 
 if(!year){
-  year = 2024;
+  year = 2020;
   setUrlParams(year);
   yearSlider.values = [ year ];
 } else {
   if ( year && validYears.indexOf(year) === -1 ){
-    alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 2012, 2016, 2020, 2024)")
-    year = 2024;
+    alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 20012, 2016)")
+    year = 2020;
     setUrlParams(year);
   }
   yearSlider.values = [ year ];
@@ -166,24 +168,95 @@ export const results = {
       candidate: "Other",
       electoralVotes: 0
     }
+  }
+}
+
+export let fieldInfos = {
+  title: {
+    state: `{state}`,
+    county: `{county} County, {state}`
   },
-  2024: {
-    republican: {
-      candidate: "Trump",
-      electoralVotes: 312
+  democrat: {
+    county: {
+      previous: {
+        name: `dem_${years.previous}`,
+        label: `${years.previous} Democrat votes`
+      },
+      next: {
+        name: `dem_${years.next}`,
+        label: `${years.next} Democrat votes`
+      },
     },
-    democrat: {
-      candidate: "Harris",
-      electoralVotes: 226
+    state: {
+      previous: {
+        name: `SUM_dem_${years.previous}`,
+        label: `${years.previous} Democrat votes`
+      },
+      next: {
+        name: `SUM_dem_${years.next}`,
+        label: `${years.next} Democrat votes`
+      }
+    }
+  },
+  republican: {
+    county: {
+      previous: {
+        name: `rep_${years.previous}`,
+        label: `${years.previous} Republican votes`
+      },
+      next: {
+        name: `rep_${years.next}`,
+        label: `${years.next} Republican votes`
+      }
     },
-    other: {
-      candidate: "Other",
-      electoralVotes: 0
+    state: {
+      previous: {
+        name: `SUM_rep_${years.previous}`,
+        label: `${years.previous} Republican votes`
+      },
+      next: {
+        name: `SUM_rep_${years.next}`,
+        label: `${years.next} Republican votes`
+      }
+    }
+  },
+  other: {
+    county: {
+      previous: {
+        name: `oth_${years.previous}`,
+        label: `${years.previous} Other votes`
+      },
+      next: {
+        name: `oth_${years.next}`,
+        label: `${years.next} Other votes`
+      }
+    },
+    state: {
+      previous: {
+        name: `SUM_oth_${years.previous}`,
+        label: `${years.previous} Other votes`
+      },
+      next: {
+        name: `SUM_oth_${years.next}`,
+        label: `${years.next} Other votes`
+      }
+    }
+  },
+  normalizationFields: {
+    county: {
+      previous: `TOTAL_STATE_VOTES_${years.previous}`,
+      next: `TOTAL_STATE_VOTES_${years.next}`
+    },
+    state: {
+      electoralVotes: `ev_${years.next}`,
+      previous: ``,
+      next: ``
     }
   }
 };
 
 // Renderer config
+
 export const rColor = new Color("rgba(220, 75, 0, 1)");
 export const dColor = new Color("rgba(60, 108, 204,1)");
 export const oColor = new Color("rgba(181, 166, 0, 1)");
@@ -199,6 +272,7 @@ export const oColorCIM = oColor.toJSON();
 //////////////
 
 // state results layer
+
 export const stateResultsSizeStops = [
   { value: 0, size: 8 },
   { value: 100000, size: 10 },
@@ -208,6 +282,7 @@ export const stateResultsSizeStops = [
 ];
 
 // state change layer
+
 export const stateChangeSizeStops = [
   { value: 0, size: 8 },
   { value: 10000, size: 8 },
@@ -217,7 +292,9 @@ export const stateChangeSizeStops = [
 ];
 
 // county layers
+
 // size is votes as a % of total state votes
+
 export const countySizeStops = [
   { value: 0, size: 6 },
   { value: 0.1, size: 12 },
@@ -318,87 +395,3 @@ export function setSelectedYear(year: UrlParams["year"]) {
     }
   };
 }
-
-export let fieldInfos = {
-  title: {
-    state: `{state}`,
-    county: `{county} County, {state}`
-  },
-  democrat: {
-    county: {
-      previous: {
-        name: `dem_${years.previous}`,
-        label: `${years.previous} Democrat votes`
-      },
-      next: {
-        name: `dem_${years.next}`,
-        label: `${years.next} Democrat votes`
-      },
-    },
-    state: {
-      previous: {
-        name: `SUM_dem_${years.previous}`,
-        label: `${years.previous} Democrat votes`
-      },
-      next: {
-        name: `SUM_dem_${years.next}`,
-        label: `${years.next} Democrat votes`
-      }
-    }
-  },
-  republican: {
-    county: {
-      previous: {
-        name: `rep_${years.previous}`,
-        label: `${years.previous} Republican votes`
-      },
-      next: {
-        name: `rep_${years.next}`,
-        label: `${years.next} Republican votes`
-      }
-    },
-    state: {
-      previous: {
-        name: `SUM_rep_${years.previous}`,
-        label: `${years.previous} Republican votes`
-      },
-      next: {
-        name: `SUM_rep_${years.next}`,
-        label: `${years.next} Republican votes`
-      }
-    }
-  },
-  other: {
-    county: {
-      previous: {
-        name: `oth_${years.previous}`,
-        label: `${years.previous} Other votes`
-      },
-      next: {
-        name: `oth_${years.next}`,
-        label: `${years.next} Other votes`
-      }
-    },
-    state: {
-      previous: {
-        name: `SUM_oth_${years.previous}`,
-        label: `${years.previous} Other votes`
-      },
-      next: {
-        name: `SUM_oth_${years.next}`,
-        label: `${years.next} Other votes`
-      }
-    }
-  },
-  normalizationFields: {
-    county: {
-      previous: `TOTAL_STATE_VOTES_${years.previous}`,
-      next: `TOTAL_STATE_VOTES_${years.next}`
-    },
-    state: {
-      electoralVotes: `ev_${years.next}`,
-      previous: ``,
-      next: ``
-    }
-  }
-};
