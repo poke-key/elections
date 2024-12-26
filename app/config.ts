@@ -171,7 +171,7 @@ export const results = {
       electoralVotes: 312
     },
     democrat: {
-      candidate: "Biden",
+      candidate: "Harris",
       electoralVotes: 226
     },
     other: {
