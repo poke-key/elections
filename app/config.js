@@ -57,7 +57,7 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
         exports.yearSlider.values = [year];
     }
     exports.basemapPortalItem = "fbfb62f3599f41e5a77845f863e2872f";
-    exports.statesLayerPortalItem = "f2825b56dfc14bb892604637dab45104";
+    exports.statesLayerPortalItem = "f9e0326e4a854c74890750214a3edd8b";
     exports.countiesLayerPortalItem = "fe9e032e4a854c74890750214a3edd8b";
     exports.maxScale = 4622324 / 16;
     exports.referenceScale = 2311162;

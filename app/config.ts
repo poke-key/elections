@@ -65,7 +65,7 @@ if(!year){
 }
 
 export const basemapPortalItem = "fbfb62f3599f41e5a77845f863e2872f";
-export const statesLayerPortalItem = "f2825b56dfc14bb892604637dab45104";
+export const statesLayerPortalItem = "f9e0326e4a854c74890750214a3edd8b";
 export const countiesLayerPortalItem = "fe9e032e4a854c74890750214a3edd8b";
 
 export const maxScale = 4622324/16;
