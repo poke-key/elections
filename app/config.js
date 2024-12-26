@@ -1,7 +1,10 @@
 define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (require, exports, Color, Slider) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var validYears = [2000, 2004, 2008, 2012, 2016, 2020];
+    exports.countySizeStops = exports.stateChangeSizeStops = exports.stateResultsSizeStops = exports.oColorCIM = exports.dColorCIM = exports.rColorCIM = exports.haloSize = exports.haloColor = exports.oColor = exports.dColor = exports.rColor = exports.fieldInfos = exports.results = exports.years = exports.selectedYear = exports.stateReferenceScale = exports.scaleThreshold = exports.referenceScale = exports.maxScale = exports.countiesLayerPortalItem = exports.statesLayerPortalItem = exports.basemapPortalItem = exports.yearSlider = void 0;
+    exports.setUrlParams = setUrlParams;
+    exports.setSelectedYear = setSelectedYear;
+    var validYears = [2000, 2004, 2008, 2012, 2016, 2020, 2024]; // Added 2024
     function getUrlParams() {
         var queryParams = document.location.search.substr(1);
         var result = {};
@@ -13,23 +16,22 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
     }
     // function to set an id as a url param
     function setUrlParams(year) {
-        window.history.pushState("", "", window.location.pathname + "?year=" + year);
+        window.history.pushState("", "", "".concat(window.location.pathname, "?year=").concat(year));
     }
-    exports.setUrlParams = setUrlParams;
     var year = getUrlParams();
     exports.yearSlider = new Slider({
         container: document.getElementById("slider"),
         min: 2004,
-        max: 2020,
+        max: 2024, // Updated the max value to 2024
         visibleElements: {
             labels: false
         },
         labelInputsEnabled: false,
         rangeLabelInputsEnabled: false,
-        steps: 4,
+        steps: 5, // Increased steps to 5
         tickConfigs: [{
                 mode: "position",
-                values: [2004, 2008, 2012, 2016, 2020],
+                values: [2004, 2008, 2012, 2016, 2020, 2024], // Included 2024
                 labelsVisible: true,
                 tickCreatedFunction: function (value, tickElement, labelElement) {
                     var setValue = function () {
@@ -49,7 +51,7 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
     }
     else {
         if (year && validYears.indexOf(year) === -1) {
-            alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 20012, 2016)");
+            alert("You must enter a valid U.S. presidential election year (e.g. 2004, 2008, 2012, 2016, 2020, 2024)");
             year = 2020;
             setUrlParams(year);
         }
@@ -151,6 +153,20 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
                 candidate: "Other",
                 electoralVotes: 0
             }
+        },
+        2024: {
+            republican: {
+                candidate: "Trump",
+                electoralVotes: 312 // Adjust as per actual data
+            },
+            democrat: {
+                candidate: "Harris",
+                electoralVotes: 226 // Adjust as per actual data
+            },
+            other: {
+                candidate: "Other",
+                electoralVotes: 0 // Adjust as per actual data
+            }
         }
     };
     exports.fieldInfos = {
@@ -161,76 +177,76 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
         democrat: {
             county: {
                 previous: {
-                    name: "dem_" + exports.years.previous,
-                    label: exports.years.previous + " Democrat votes"
+                    name: "dem_".concat(exports.years.previous),
+                    label: "".concat(exports.years.previous, " Democrat votes")
                 },
                 next: {
-                    name: "dem_" + exports.years.next,
-                    label: exports.years.next + " Democrat votes"
+                    name: "dem_".concat(exports.years.next),
+                    label: "".concat(exports.years.next, " Democrat votes")
                 },
             },
             state: {
                 previous: {
-                    name: "SUM_dem_" + exports.years.previous,
-                    label: exports.years.previous + " Democrat votes"
+                    name: "SUM_dem_".concat(exports.years.previous),
+                    label: "".concat(exports.years.previous, " Democrat votes")
                 },
                 next: {
-                    name: "SUM_dem_" + exports.years.next,
-                    label: exports.years.next + " Democrat votes"
+                    name: "SUM_dem_".concat(exports.years.next),
+                    label: "".concat(exports.years.next, " Democrat votes")
                 }
             }
         },
         republican: {
             county: {
                 previous: {
-                    name: "rep_" + exports.years.previous,
-                    label: exports.years.previous + " Republican votes"
+                    name: "rep_".concat(exports.years.previous),
+                    label: "".concat(exports.years.previous, " Republican votes")
                 },
                 next: {
-                    name: "rep_" + exports.years.next,
-                    label: exports.years.next + " Republican votes"
+                    name: "rep_".concat(exports.years.next),
+                    label: "".concat(exports.years.next, " Republican votes")
                 }
             },
             state: {
                 previous: {
-                    name: "SUM_rep_" + exports.years.previous,
-                    label: exports.years.previous + " Republican votes"
+                    name: "SUM_rep_".concat(exports.years.previous),
+                    label: "".concat(exports.years.previous, " Republican votes")
                 },
                 next: {
-                    name: "SUM_rep_" + exports.years.next,
-                    label: exports.years.next + " Republican votes"
+                    name: "SUM_rep_".concat(exports.years.next),
+                    label: "".concat(exports.years.next, " Republican votes")
                 }
             }
         },
         other: {
             county: {
                 previous: {
-                    name: "oth_" + exports.years.previous,
-                    label: exports.years.previous + " Other votes"
+                    name: "oth_".concat(exports.years.previous),
+                    label: "".concat(exports.years.previous, " Other votes")
                 },
                 next: {
-                    name: "oth_" + exports.years.next,
-                    label: exports.years.next + " Other votes"
+                    name: "oth_".concat(exports.years.next),
+                    label: "".concat(exports.years.next, " Other votes")
                 }
             },
             state: {
                 previous: {
-                    name: "SUM_oth_" + exports.years.previous,
-                    label: exports.years.previous + " Other votes"
+                    name: "SUM_oth_".concat(exports.years.previous),
+                    label: "".concat(exports.years.previous, " Other votes")
                 },
                 next: {
-                    name: "SUM_oth_" + exports.years.next,
-                    label: exports.years.next + " Other votes"
+                    name: "SUM_oth_".concat(exports.years.next),
+                    label: "".concat(exports.years.next, " Other votes")
                 }
             }
         },
         normalizationFields: {
             county: {
-                previous: "TOTAL_STATE_VOTES_" + exports.years.previous,
-                next: "TOTAL_STATE_VOTES_" + exports.years.next
+                previous: "TOTAL_STATE_VOTES_".concat(exports.years.previous),
+                next: "TOTAL_STATE_VOTES_".concat(exports.years.next)
             },
             state: {
-                electoralVotes: "ev_" + exports.years.next,
+                electoralVotes: "ev_".concat(exports.years.next),
                 previous: "",
                 next: ""
             }
@@ -287,82 +303,80 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
             democrat: {
                 county: {
                     previous: {
-                        name: "dem_" + exports.years.previous,
-                        label: exports.years.previous + " Democrat votes"
+                        name: "dem_".concat(exports.years.previous),
+                        label: "".concat(exports.years.previous, " Democrat votes")
                     },
                     next: {
-                        name: "dem_" + exports.years.next,
-                        label: exports.years.next + " Democrat votes"
+                        name: "dem_".concat(exports.years.next),
+                        label: "".concat(exports.years.next, " Democrat votes")
                     },
                 },
                 state: {
                     previous: {
-                        name: "SUM_dem_" + exports.years.previous,
-                        label: exports.years.previous + " Democrat votes"
+                        name: "SUM_dem_".concat(exports.years.previous),
+                        label: "".concat(exports.years.previous, " Democrat votes")
                     },
                     next: {
-                        name: "SUM_dem_" + exports.years.next,
-                        label: exports.years.next + " Democrat votes"
+                        name: "SUM_dem_".concat(exports.years.next),
+                        label: "".concat(exports.years.next, " Democrat votes")
                     }
                 }
             },
             republican: {
                 county: {
                     previous: {
-                        name: "rep_" + exports.years.previous,
-                        label: exports.years.previous + " Republican votes"
+                        name: "rep_".concat(exports.years.previous),
+                        label: "".concat(exports.years.previous, " Republican votes")
                     },
                     next: {
-                        name: "rep_" + exports.years.next,
-                        label: exports.years.next + " Republican votes"
+                        name: "rep_".concat(exports.years.next),
+                        label: "".concat(exports.years.next, " Republican votes")
                     }
                 },
                 state: {
                     previous: {
-                        name: "SUM_rep_" + exports.years.previous,
-                        label: exports.years.previous + " Republican votes"
+                        name: "SUM_rep_".concat(exports.years.previous),
+                        label: "".concat(exports.years.previous, " Republican votes")
                     },
                     next: {
-                        name: "SUM_rep_" + exports.years.next,
-                        label: exports.years.next + " Republican votes"
+                        name: "SUM_rep_".concat(exports.years.next),
+                        label: "".concat(exports.years.next, " Republican votes")
                     }
                 }
             },
             other: {
                 county: {
                     previous: {
-                        name: "oth_" + exports.years.previous,
-                        label: exports.years.previous + " Other votes"
+                        name: "oth_".concat(exports.years.previous),
+                        label: "".concat(exports.years.previous, " Other votes")
                     },
                     next: {
-                        name: "oth_" + exports.years.next,
-                        label: exports.years.next + " Other votes"
+                        name: "oth_".concat(exports.years.next),
+                        label: "".concat(exports.years.next, " Other votes")
                     }
                 },
                 state: {
                     previous: {
-                        name: "SUM_oth_" + exports.years.previous,
-                        label: exports.years.previous + " Other votes"
+                        name: "SUM_oth_".concat(exports.years.previous),
+                        label: "".concat(exports.years.previous, " Other votes")
                     },
                     next: {
-                        name: "SUM_oth_" + exports.years.next,
-                        label: exports.years.next + " Other votes"
+                        name: "SUM_oth_".concat(exports.years.next),
+                        label: "".concat(exports.years.next, " Other votes")
                     }
                 }
             },
             normalizationFields: {
                 county: {
-                    previous: "TOTAL_STATE_VOTES_" + exports.years.previous,
-                    next: "TOTAL_STATE_VOTES_" + exports.years.next
+                    previous: "TOTAL_STATE_VOTES_".concat(exports.years.previous),
+                    next: "TOTAL_STATE_VOTES_".concat(exports.years.next)
                 },
                 state: {
-                    electoralVotes: "ev_" + exports.years.next,
+                    electoralVotes: "ev_".concat(exports.years.next),
                     previous: "",
                     next: ""
                 }
             }
         };
     }
-    exports.setSelectedYear = setSelectedYear;
 });
-//# sourceMappingURL=config.js.map
