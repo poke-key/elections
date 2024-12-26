@@ -365,4 +365,4 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
     }
     exports.setSelectedYear = setSelectedYear;
 });
-//# sourceMappingURL=config.js.map
+//# sourceMappingURL=config.js.map 
