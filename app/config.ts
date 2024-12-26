@@ -1,7 +1,7 @@
-import { Color } from "@arcgis/core/Color";
-import { Slider } from "@arcgis/core/widgets/Slider";
+import Color = require("esri/Color");
+import Slider = require("esri/widgets/Slider");
 
-// Rest of your config.ts file remains the same
+// function to retrieve query parameters (in this case only id)
 export interface UrlParams {
   year?: 2004 | 2008 | 2012 | 2016 | 2020 | 2024 | number,
 }
@@ -72,7 +72,7 @@ export const countiesLayerPortalItem = "fe9e032e4a854c74890750214a3edd8b";
 
 export const maxScale = 4622324/16;
 export const referenceScale = 2311162;
-export const scaleThreshold = 9244600;
+export const scaleThreshold = 9244600;  // 9244649;
 export const stateReferenceScale = 18489200;
 
 export let selectedYear = year;
@@ -170,11 +170,11 @@ export const results = {
   2024: {
     republican: {
       candidate: "Trump",
-      electoralVotes: 236  // Update with final count
+      electoralVotes: 312
     },
     democrat: {
-      candidate: "Biden",
-      electoralVotes: 302  // Update with final count
+      candidate: "Harris",
+      electoralVotes: 226
     },
     other: {
       candidate: "Other",
@@ -191,11 +191,11 @@ export let fieldInfos = {
   democrat: {
     county: {
       previous: {
-        name: "votes_dem",
+        name: `dem_${years.previous}`,
         label: `${years.previous} Democrat votes`
       },
       next: {
-        name: "votes_dem",
+        name: `dem_${years.next}`,
         label: `${years.next} Democrat votes`
       },
     },
@@ -213,11 +213,11 @@ export let fieldInfos = {
   republican: {
     county: {
       previous: {
-        name: "votes_gop",
+        name: `rep_${years.previous}`,
         label: `${years.previous} Republican votes`
       },
       next: {
-        name: "votes_gop",
+        name: `rep_${years.next}`,
         label: `${years.next} Republican votes`
       }
     },
@@ -235,11 +235,11 @@ export let fieldInfos = {
   other: {
     county: {
       previous: {
-        name: "votes_other",
+        name: `oth_${years.previous}`,
         label: `${years.previous} Other votes`
       },
       next: {
-        name: "votes_other",
+        name: `oth_${years.next}`,
         label: `${years.next} Other votes`
       }
     },
@@ -268,7 +268,6 @@ export let fieldInfos = {
 };
 
 // Renderer config
-
 export const rColor = new Color("rgba(220, 75, 0, 1)");
 export const dColor = new Color("rgba(60, 108, 204,1)");
 export const oColor = new Color("rgba(181, 166, 0, 1)");
@@ -284,7 +283,6 @@ export const oColorCIM = oColor.toJSON();
 //////////////
 
 // state results layer
-
 export const stateResultsSizeStops = [
   { value: 0, size: 8 },
   { value: 100000, size: 10 },
@@ -294,7 +292,6 @@ export const stateResultsSizeStops = [
 ];
 
 // state change layer
-
 export const stateChangeSizeStops = [
   { value: 0, size: 8 },
   { value: 10000, size: 8 },
@@ -304,9 +301,7 @@ export const stateChangeSizeStops = [
 ];
 
 // county layers
-
 // size is votes as a % of total state votes
-
 export const countySizeStops = [
   { value: 0, size: 6 },
   { value: 0.1, size: 12 },
@@ -331,11 +326,11 @@ export function setSelectedYear(year: UrlParams["year"]) {
     democrat: {
       county: {
         previous: {
-          name: "votes_dem",
+          name: `dem_${years.previous}`,
           label: `${years.previous} Democrat votes`
         },
         next: {
-          name: "votes_dem",
+          name: `dem_${years.next}`,
           label: `${years.next} Democrat votes`
         },
       },
@@ -353,11 +348,11 @@ export function setSelectedYear(year: UrlParams["year"]) {
     republican: {
       county: {
         previous: {
-          name: "votes_gop",
+          name: `rep_${years.previous}`,
           label: `${years.previous} Republican votes`
         },
         next: {
-          name: "votes_gop",
+          name: `rep_${years.next}`,
           label: `${years.next} Republican votes`
         }
       },
@@ -375,11 +370,11 @@ export function setSelectedYear(year: UrlParams["year"]) {
     other: {
       county: {
         previous: {
-          name: "votes_other",
+          name: `oth_${years.previous}`,
           label: `${years.previous} Other votes`
         },
         next: {
-          name: "votes_other",
+          name: `oth_${years.next}`,
           label: `${years.next} Other votes`
         }
       },
