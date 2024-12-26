@@ -168,11 +168,11 @@ export const results = {
   2024: {
     republican: {
       candidate: "Trump",
-      electoralVotes: 0
+      electoralVotes: 312
     },
     democrat: {
-      candidate: "Biden",
-      electoralVotes: 0
+      candidate: "Harris",
+      electoralVotes: 226
     },
     other: {
       candidate: "Other",
