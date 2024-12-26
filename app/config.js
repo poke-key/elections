@@ -159,7 +159,7 @@ define(["require", "exports", "esri/Color", "esri/widgets/Slider"], function (re
                 electoralVotes: 312
             },
             democrat: {
-                candidate: "Harris",
+                candidate: "Biden",
                 electoralVotes: 226
             },
             other: {
