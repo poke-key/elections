@@ -170,99 +170,15 @@ export const results = {
   2024: {
     republican: {
       candidate: "Trump",
-      electoralVotes: 312
+      electoralVotes: 235
     },
     democrat: {
-      candidate: "Harris",
-      electoralVotes: 226
+      candidate: "Biden",
+      electoralVotes: 303
     },
     other: {
       candidate: "Other",
       electoralVotes: 0
-    }
-  }
-}
-
-export let fieldInfos = {
-  title: {
-    state: `{state}`,
-    county: `{county} County, {state}`
-  },
-  democrat: {
-    county: {
-      previous: {
-        name: `dem_${years.previous}`,
-        label: `${years.previous} Democrat votes`
-      },
-      next: {
-        name: `dem_${years.next}`,
-        label: `${years.next} Democrat votes`
-      },
-    },
-    state: {
-      previous: {
-        name: `SUM_dem_${years.previous}`,
-        label: `${years.previous} Democrat votes`
-      },
-      next: {
-        name: `SUM_dem_${years.next}`,
-        label: `${years.next} Democrat votes`
-      }
-    }
-  },
-  republican: {
-    county: {
-      previous: {
-        name: `rep_${years.previous}`,
-        label: `${years.previous} Republican votes`
-      },
-      next: {
-        name: `rep_${years.next}`,
-        label: `${years.next} Republican votes`
-      }
-    },
-    state: {
-      previous: {
-        name: `SUM_rep_${years.previous}`,
-        label: `${years.previous} Republican votes`
-      },
-      next: {
-        name: `SUM_rep_${years.next}`,
-        label: `${years.next} Republican votes`
-      }
-    }
-  },
-  other: {
-    county: {
-      previous: {
-        name: `oth_${years.previous}`,
-        label: `${years.previous} Other votes`
-      },
-      next: {
-        name: `oth_${years.next}`,
-        label: `${years.next} Other votes`
-      }
-    },
-    state: {
-      previous: {
-        name: `SUM_oth_${years.previous}`,
-        label: `${years.previous} Other votes`
-      },
-      next: {
-        name: `SUM_oth_${years.next}`,
-        label: `${years.next} Other votes`
-      }
-    }
-  },
-  normalizationFields: {
-    county: {
-      previous: `TOTAL_STATE_VOTES_${years.previous}`,
-      next: `TOTAL_STATE_VOTES_${years.next}`
-    },
-    state: {
-      electoralVotes: `ev_${years.next}`,
-      previous: ``,
-      next: ``
     }
   }
 };
@@ -402,3 +318,87 @@ export function setSelectedYear(year: UrlParams["year"]) {
     }
   };
 }
+
+export let fieldInfos = {
+  title: {
+    state: `{state}`,
+    county: `{county} County, {state}`
+  },
+  democrat: {
+    county: {
+      previous: {
+        name: `dem_${years.previous}`,
+        label: `${years.previous} Democrat votes`
+      },
+      next: {
+        name: `dem_${years.next}`,
+        label: `${years.next} Democrat votes`
+      },
+    },
+    state: {
+      previous: {
+        name: `SUM_dem_${years.previous}`,
+        label: `${years.previous} Democrat votes`
+      },
+      next: {
+        name: `SUM_dem_${years.next}`,
+        label: `${years.next} Democrat votes`
+      }
+    }
+  },
+  republican: {
+    county: {
+      previous: {
+        name: `rep_${years.previous}`,
+        label: `${years.previous} Republican votes`
+      },
+      next: {
+        name: `rep_${years.next}`,
+        label: `${years.next} Republican votes`
+      }
+    },
+    state: {
+      previous: {
+        name: `SUM_rep_${years.previous}`,
+        label: `${years.previous} Republican votes`
+      },
+      next: {
+        name: `SUM_rep_${years.next}`,
+        label: `${years.next} Republican votes`
+      }
+    }
+  },
+  other: {
+    county: {
+      previous: {
+        name: `oth_${years.previous}`,
+        label: `${years.previous} Other votes`
+      },
+      next: {
+        name: `oth_${years.next}`,
+        label: `${years.next} Other votes`
+      }
+    },
+    state: {
+      previous: {
+        name: `SUM_oth_${years.previous}`,
+        label: `${years.previous} Other votes`
+      },
+      next: {
+        name: `SUM_oth_${years.next}`,
+        label: `${years.next} Other votes`
+      }
+    }
+  },
+  normalizationFields: {
+    county: {
+      previous: `TOTAL_STATE_VOTES_${years.previous}`,
+      next: `TOTAL_STATE_VOTES_${years.next}`
+    },
+    state: {
+      electoralVotes: `ev_${years.next}`,
+      previous: ``,
+      next: ``
+    }
+  }
+};
